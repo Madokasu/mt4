@@ -21,6 +21,7 @@ double ExtMapBuffer3[];
 
 extern int short_term_SMA_period=20;
 extern int long_term_SMA_period =40;
+extern string suffix = "";// Example : USDJPYmicro => micro
 
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
@@ -66,12 +67,12 @@ int start()
      {
       ExtMapBuffer1[i] =
         50.14348112
-         * MathPow(iClose("EURUSD", 0, i), -0.576)
-         * MathPow(iClose("USDJPY", 0, i),  0.136)
-         * MathPow(iClose("GBPUSD", 0, i), -0.119)
-         * MathPow(iClose("USDCAD", 0, i),  0.091)
-         * MathPow(iClose("USDSEK", 0, i),  0.042)
-         * MathPow(iClose("USDCHF", 0, i),  0.036);
+         * MathPow(iClose("EURUSD" + suffix, 0, i), -0.576)
+         * MathPow(iClose("USDJPY" + suffix, 0, i),  0.136)
+         * MathPow(iClose("GBPUSD" + suffix, 0, i), -0.119)
+         * MathPow(iClose("USDCAD" + suffix, 0, i),  0.091)
+         * MathPow(iClose("USDSEK" + suffix, 0, i),  0.042)
+         * MathPow(iClose("USDCHF" + suffix, 0, i),  0.036);
      }
    for(i = 0; i < limit; i++)
      {
