@@ -7,12 +7,28 @@
 #property indicator_buffers 1 
 #property indicator_color1 Red 
 double ExtMapBuffer1[];
+/*
+enum timeFrame_List {
+  Current_timeFrame = 0,
+  M1  = 1,
+  M5  = 5,
+  M15 = 15,
+  M30 = 30,
+  H1  = 60,
+  H4  = 240,
+  D1  = 1440,
+  W1  = 10080,
+  MN  = 43200
+};
+*/
 //---- input parameters 
-extern int TimeFrame=60;
+extern int TimeFrame=-1;
+//extern timeFrame_List inpTimeFrame=H1;
 extern int AllBars=240;
 extern int BarsForFract=0;
 extern double flatCriteria=0.25;
 extern color collor=Lime;
+extern int LineType=1;
 
 int CurrentBar=0;
 double Step=0;
@@ -29,6 +45,21 @@ int trend,flat;
 //+------------------------------------------------------------------+ 
 int init()
   {
+/*
+   switch (timeFrame_List) {
+     case M1  : TimeFrame = 1; break;
+     case M5  : TimeFrame = 5; break;
+     case M15 : TimeFrame = 15; break;
+     case M30 : TimeFrame = 30; break;
+     case H1  : TimeFrame = 60; break;
+     case H4  : TimeFrame = 240; break;
+     case D1  : TimeFrame = 1440; break;
+     case W1  : TimeFrame = 10080; break;
+     case MN  : TimeFrame = 43200; break;
+     default  : TimeFrame = 60; break;
+   }
+*/
+   if(TimeFrame == -1) TimeFrame = Period();
 //---- indicators 
    SetIndexStyle(0,DRAW_ARROW);
    SetIndexArrow(0,164);
@@ -45,7 +76,7 @@ int init()
 int deinit()
   {
 //---- 
-
+   DelObj();
 //---- 
    return(0);
   }
@@ -223,7 +254,7 @@ int start()
      {
       ObjectCreate("TL1"+TimeFrame,OBJ_TREND,0,T2,PP+Step*AB,T1,PP);
       ObjectSet("TL1"+TimeFrame,OBJPROP_COLOR,collor);
-      ObjectSet("TL1"+TimeFrame,OBJPROP_WIDTH,2);
+      ObjectSet("TL1"+TimeFrame,OBJPROP_WIDTH,LineType);
      }
    else
      {
@@ -232,7 +263,7 @@ int start()
       ObjectSet("TL1"+TimeFrame,OBJPROP_TIME2,T1);
       ObjectSet("TL1"+TimeFrame,OBJPROP_PRICE2,PP);
       ObjectSet("TL1"+TimeFrame,OBJPROP_COLOR,collor);
-      ObjectSet("TL1"+TimeFrame,OBJPROP_WIDTH,2);
+      ObjectSet("TL1"+TimeFrame,OBJPROP_WIDTH,LineType);
      }
 /*
    ObjectSet("TL1",OBJPROP_COLOR,ForestGreen); 
@@ -243,7 +274,7 @@ int start()
      {
       ObjectCreate("TL2"+TimeFrame,OBJ_TREND,0,T2,P2,T1,P1);
       ObjectSet("TL2"+TimeFrame,OBJPROP_COLOR,collor);
-      ObjectSet("TL2"+TimeFrame,OBJPROP_WIDTH,2);
+      ObjectSet("TL2"+TimeFrame,OBJPROP_WIDTH,LineType);
      }
    else
      {
@@ -252,7 +283,7 @@ int start()
       ObjectSet("TL2"+TimeFrame,OBJPROP_TIME2,T1);
       ObjectSet("TL2"+TimeFrame,OBJPROP_PRICE2,P1);
       ObjectSet("TL2"+TimeFrame,OBJPROP_COLOR,collor);
-      ObjectSet("TL2"+TimeFrame,OBJPROP_WIDTH,2);
+      ObjectSet("TL2"+TimeFrame,OBJPROP_WIDTH,LineType);
      }
 /*
    ObjectSet("TL2",OBJPROP_COLOR,ForestGreen); 
@@ -324,3 +355,4 @@ int start()
    return(0);
   }
 //+------------------------------------------------------------------+
+
