@@ -11,14 +11,15 @@
 
 #property indicator_width1 2
 
-input color UpColor = clrAqua;      //色
-input color labelColor = clrSilver; //色
+input color labelColor = clrSilver; //フォント色
+input int fontsize = 12; //フォントサイズ
+input int offset = 1; //番号調整用
 
 input int maxlimit = 300;           //最大表示本数
 
 double sanpeiUp[];
 
-string sName = "SG";
+string sName = "PN";
 
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
@@ -68,7 +69,7 @@ int OnCalculate(const int rates_total,
    
    for(int i=limit; i>=1; i --){
      sanpeiUp[i] = EMPTY_VALUE;
-     TextCreate(sName+"_speUp_"+IntegerToString(i), time[i], low[i], IntegerToString(i), labelColor, "@Gothic", 270, ANCHOR_LEFT);
+     TextCreate(sName+"_speUp_"+IntegerToString(i+offset), time[i], low[i], IntegerToString(i+offset), labelColor, "@Gothic", 270, ANCHOR_LEFT);
    }
    
    return(rates_total);
@@ -96,7 +97,7 @@ bool TextCreate(const string            name="Text",              // object name
     
    ObjectSetString(0, name, OBJPROP_TEXT, text); 
    ObjectSetString(0, name, OBJPROP_FONT, font); 
-   ObjectSetInteger(0, name, OBJPROP_FONTSIZE, 8); 
+   ObjectSetInteger(0, name, OBJPROP_FONTSIZE, fontsize); 
    ObjectSetDouble(0, name, OBJPROP_ANGLE, angle); 
    ObjectSetInteger(0, name, OBJPROP_ANCHOR, anchor); 
    ObjectSetInteger(0, name, OBJPROP_COLOR, clr); 
